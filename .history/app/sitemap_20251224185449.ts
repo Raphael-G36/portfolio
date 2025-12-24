@@ -4,7 +4,7 @@ import { projects } from '@/data/projects'
 export default function sitemap(): MetadataRoute.Sitemap {
   // Update this with your actual domain after deployment
   // You can also use process.env.NEXT_PUBLIC_SITE_URL if you set it as an environment variable
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://raphael-okonmah.vercel.app'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com'
 
   const projectUrls = projects.map((project) => ({
     url: `${baseUrl}/projects/${project.slug}`,
