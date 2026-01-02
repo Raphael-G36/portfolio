@@ -10,6 +10,7 @@ export interface Project {
   role: string
   outcome: string
   featured: boolean
+  link?: string
 }
 
 export const projects: Project[] = [
@@ -42,15 +43,16 @@ export const projects: Project[] = [
   {
     id: '3',
     slug: 'eye-gaze-tracking-system',
-    title: 'Eye Gaze Tracking System',
-    description: 'Computer vision system for malpractice detection through behavioral analysis and eye gaze tracking.',
-    shortDescription: 'Computer vision system for malpractice detection using eye gaze tracking and behavioral analysis.',
-    problem: 'There was a need to develop a system capable of detecting potential malpractice scenarios through behavioral analysis. Traditional monitoring methods were insufficient for identifying subtle behavioral patterns that could indicate issues requiring attention.',
-    solution: 'Developed a computer vision-based eye gaze tracking system that analyzes behavioral patterns and eye movement data. The system processes video feeds in real-time, applies machine learning algorithms to detect anomalies, and generates alerts when suspicious patterns are identified. The backend handles data processing, analysis, and reporting.',
-    techStack: ['Python', 'OpenCV', 'TensorFlow', 'FastAPI', 'Computer Vision'],
+    title: 'EyeTrack Pro - Eye Gaze Tracking System',
+    description: 'AI-powered academic integrity monitoring system with real-time eye tracking technology for online assessments.',
+    shortDescription: 'AI-powered academic integrity monitoring system with real-time eye tracking technology.',
+    problem: 'There was a need to develop a system capable of detecting potential malpractice scenarios through behavioral analysis. Traditional monitoring methods were insufficient for identifying subtle behavioral patterns that could indicate issues requiring attention during online assessments.',
+    solution: 'Developed EyeTrack Pro, a computer vision-based eye gaze tracking system powered by MediaPipe that analyzes behavioral patterns and eye movement data in real-time. The system processes video feeds, applies advanced computer vision algorithms to detect anomalies, and generates alerts when students look away from the screen for extended periods. The backend handles data processing, analysis, and comprehensive session analytics with privacy-focused local processing.',
+    techStack: ['Python', 'MediaPipe', 'FastAPI', 'Computer Vision', 'Real-time Processing'],
     role: 'Backend & System Logic Contributor',
-    outcome: 'Contributed to the development of a sophisticated tracking system that successfully identifies behavioral patterns with high accuracy. The system\'s backend architecture efficiently processes large volumes of video data and provides actionable insights for malpractice detection.',
+    outcome: 'Contributed to the development of a sophisticated tracking system that successfully identifies behavioral patterns with high accuracy. The system\'s backend architecture efficiently processes large volumes of video data and provides actionable insights for academic integrity monitoring. Features include real-time detection, suspicious behavior alerts, session analytics, and privacy-focused local data processing.',
     featured: true,
+    link: 'https://eye-gaze-tracker.up.railway.app/',
   },
 ]
 

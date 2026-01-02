@@ -10,6 +10,8 @@ interface ButtonProps {
   className?: string
   type?: 'button' | 'submit' | 'reset'
   disabled?: boolean
+  target?: string
+  rel?: string
 }
 
 export default function Button({
@@ -21,6 +23,8 @@ export default function Button({
   className = '',
   type = 'button',
   disabled = false,
+  target,
+  rel,
 }: ButtonProps) {
   const baseStyles =
     'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
@@ -43,6 +47,22 @@ export default function Button({
   const classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`
 
   if (href) {
+    // Check if it's an external link
+    const isExternal = href.startsWith('http://') || href.startsWith('https://')
+    
+    if (isExternal) {
+      return (
+        <a
+          href={href}
+          className={classes}
+          target={target || '_blank'}
+          rel={rel || 'noopener noreferrer'}
+        >
+          {children}
+        </a>
+      )
+    }
+    
     return (
       <Link href={href} className={classes}>
         {children}

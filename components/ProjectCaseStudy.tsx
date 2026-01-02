@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Button from '@/components/Button'
 import Card from '@/components/Card'
 import { Project } from '@/data/projects'
-import { HiArrowLeft, HiCode } from 'react-icons/hi'
+import { HiArrowLeft, HiCode, HiExternalLink } from 'react-icons/hi'
 
 interface ProjectCaseStudyProps {
   project: Project
@@ -35,6 +35,20 @@ export default function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
           <div className="mb-12">
             <h1 className="heading-primary mb-4">{project.title}</h1>
             <p className="text-body text-xl">{project.description}</p>
+            {project.link && (
+              <div className="mt-6">
+                <Button
+                  href={project.link}
+                  variant="primary"
+                  size="md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Visit Project
+                  <HiExternalLink className="ml-2 w-4 h-4" />
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Project Details */}
