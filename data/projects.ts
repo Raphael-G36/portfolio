@@ -39,6 +39,7 @@ export const projects: Project[] = [
     role: 'Full-stack Developer',
     outcome: 'Delivered a production-ready publication system that streamlined the journal\'s editorial process, reduced submission-to-publication time, and improved the overall quality of the peer review process. The system successfully handles multiple concurrent submissions and maintains a complete audit trail.',
     featured: true,
+    link: 'https://djcp.org/',
   },
   {
     id: '3',
