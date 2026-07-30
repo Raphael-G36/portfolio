@@ -1,56 +1,52 @@
 import { MetadataRoute } from 'next'
 import { projects } from '@/data/projects'
+import { siteUrl } from '@/data/seo'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Update this with your actual domain after deployment
-  // You can also use process.env.NEXT_PUBLIC_SITE_URL if you set it as an environment variable
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://raphael-okonmah.vercel.app'
-
   const projectUrls = projects.map((project) => ({
-    url: `${baseUrl}/projects/${project.slug}`,
+    url: `${siteUrl}/projects/${project.slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
-    priority: 0.8,
+    priority: project.featured ? 0.85 : 0.6,
   }))
 
   return [
     {
-      url: baseUrl,
+      url: siteUrl,
       lastModified: new Date(),
-      changeFrequency: 'yearly',
+      changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: `${baseUrl}/about`,
+      url: `${siteUrl}/about`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/projects`,
+      url: `${siteUrl}/projects`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
+      changeFrequency: 'weekly',
+      priority: 0.95,
     },
     {
-      url: `${baseUrl}/skills`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/experience`,
+      url: `${siteUrl}/skills`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/contact`,
+      url: `${siteUrl}/experience`,
       lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.7,
+      changeFrequency: 'monthly',
+      priority: 0.85,
+    },
+    {
+      url: `${siteUrl}/contact`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.75,
     },
     ...projectUrls,
   ]
 }
-

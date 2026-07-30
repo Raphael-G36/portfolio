@@ -1,40 +1,87 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import { Syne, Source_Sans_3, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import { ThemeProvider } from '@/components/ThemeProvider'
+import SeoJsonLd from '@/components/SeoJsonLd'
+import { defaultDescription, defaultTitle, seoKeywords, siteUrl } from '@/data/seo'
+import { site } from '@/data/site'
 
-const inter = Inter({ 
+const syne = Syne({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-syne',
+  display: 'swap',
+})
+
+const sourceSans = Source_Sans_3({
+  subsets: ['latin'],
+  variable: '--font-source',
+  display: 'swap',
+})
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-mono',
   display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'Raphael Okonmah | Software Engineer',
-  description: 'Software Engineer specializing in backend development, system architecture, and full-stack solutions. CTO & Lead Developer at Emoefe Digitals.',
-  keywords: ['Software Engineer', 'Backend Developer', 'Full Stack Developer', 'Python', 'PHP', 'System Architecture'],
-  authors: [{ name: 'Raphael Okonmah' }],
+  metadataBase: new URL(siteUrl),
+  title: defaultTitle,
+  description: defaultDescription,
+  keywords: [...seoKeywords],
+  authors: [{ name: site.name, url: siteUrl }],
+  creator: site.name,
+  publisher: site.name,
+  category: 'technology',
+  classification: 'Portfolio',
+  applicationName: `${site.name} Portfolio`,
+  referrer: 'origin-when-cross-origin',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   openGraph: {
-    title: 'Raphael Okonmah | Software Engineer',
-    description: 'Software Engineer specializing in backend development, system architecture, and full-stack solutions.',
+    title: defaultTitle.default,
+    description: defaultDescription,
+    url: siteUrl,
+    siteName: `${site.name} | Full Stack Product Engineer`,
+    locale: 'en_NG',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Raphael Okonmah | Software Engineer',
-    description: 'Software Engineer specializing in backend development, system architecture, and full-stack solutions.',
+    title: defaultTitle.default,
+    description: defaultDescription,
+    creator: '@OkonmahRaphael',
+  },
+  other: {
+    'linkedin:profile': site.links.linkedin,
+    'geo.region': 'NG-DE',
+    'geo.placename': 'Asaba',
   },
 }
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#111827' },
-  ],
+  themeColor: '#F3F3F1',
 }
 
 export default function RootLayout({
@@ -43,19 +90,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased`}>
-        <ThemeProvider>
-          <div className="flex flex-col min-h-screen">
-            <Navigation />
-            <main className="flex-grow">
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </ThemeProvider>
+    <html lang="en">
+      <body
+        className={`${syne.variable} ${sourceSans.variable} ${plexMono.variable} font-sans`}
+      >
+        <SeoJsonLd />
+        <div className="flex min-h-screen flex-col">
+          <Navigation />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   )
 }
-

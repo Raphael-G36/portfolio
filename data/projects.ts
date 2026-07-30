@@ -5,55 +5,135 @@ export interface Project {
   description: string
   shortDescription: string
   problem: string
+  approach: string
   solution: string
   techStack: string[]
   role: string
   outcome: string
+  highlights: string[]
   featured: boolean
+  confidential: boolean
   link?: string
+  client?: string
 }
 
 export const projects: Project[] = [
   {
     id: '1',
-    slug: 'lms-emoefe-digitals',
-    title: 'LMS for Emoefe Digitals',
-    description: 'Internal learning management system designed to streamline employee training and knowledge management.',
-    shortDescription: 'Internal learning management system for employee training and knowledge management.',
-    problem: 'Emoefe Digitals needed a centralized platform to manage employee training, track learning progress, and maintain organizational knowledge. The lack of a structured learning system made it difficult to onboard new employees and ensure consistent skill development across the team.',
-    solution: 'Developed a comprehensive Learning Management System (LMS) that provides course management, progress tracking, assessment tools, and certification capabilities. The system enables administrators to create and manage training modules while allowing employees to access learning materials, complete courses, and track their professional development.',
-    techStack: ['Python', 'Flask', 'PostgreSQL', 'JavaScript', 'HTML/CSS'],
-    role: 'Architect & Lead Developer',
-    outcome: 'Successfully deployed an internal LMS that improved employee onboarding efficiency and standardized training processes. The system now serves as the primary platform for knowledge management and professional development within the organization.',
-    featured: true,
-  },
-  {
-    id: '2',
     slug: 'journal-publication-software',
-    title: 'Journal Publication Software',
-    description: 'Comprehensive manuscript submission and peer review system for Delta Journal of Clinical Practice.',
-    shortDescription: 'Manuscript submission, peer review, and editorial workflow system for medical journal publication.',
-    problem: 'Delta Journal of Clinical Practice required a digital solution to manage the entire publication workflow, from manuscript submission through peer review to final publication. The existing manual process was time-consuming, error-prone, and lacked proper tracking mechanisms.',
-    solution: 'Built a full-stack publication management system that handles manuscript submission, automated peer review assignment, editorial workflow management, version control, and final publication. The system includes role-based access control for authors, reviewers, and editors, with comprehensive tracking and notification features.',
-    techStack: ['PHP', 'CodeIgniter', 'MySQL', 'JavaScript', 'Bootstrap'],
+    title: 'Delta Journal of Clinical Practice',
+    client: 'MDCAN, Federal Medical Centre, Asaba',
+    description:
+      'A live journal website and publishing workflow for a medical and academic organization.',
+    shortDescription:
+      'Live publication site and editorial workflow for a clinical practice journal.',
+    problem:
+      'The journal needed a credible public presence and a practical way to publish and manage content. Manual coordination made editorial work slow and hard to track.',
+    approach:
+      'I treated it as both a public reading site and an internal publishing system — clear information architecture for readers, plus admin tooling for editors.',
+    solution:
+      'Built a database-driven journal platform in PHP/CodeIgniter with content publishing, management workflows, and responsive interfaces. Supported deployment and ongoing updates after launch.',
+    techStack: ['PHP', 'CodeIgniter', 'MySQL', 'JavaScript', 'HTML', 'CSS', 'Bootstrap'],
     role: 'Full-stack Developer',
-    outcome: 'Delivered a production-ready publication system that streamlined the journal\'s editorial process, reduced submission-to-publication time, and improved the overall quality of the peer review process. The system successfully handles multiple concurrent submissions and maintains a complete audit trail.',
+    outcome:
+      'Live in production at djcp.org — used by a real medical organization, with ongoing maintenance and content updates.',
+    highlights: [
+      'Public journal site in production',
+      'Editorial content management workflows',
+      'Post-launch maintenance and updates',
+    ],
     featured: true,
+    confidential: false,
     link: 'https://djcp.org/',
   },
   {
-    id: '3',
-    slug: 'eye-gaze-tracking-system',
-    title: 'EyeTrack Pro - Eye Gaze Tracking System',
-    description: 'AI-powered academic integrity monitoring system with real-time eye tracking technology for online assessments.',
-    shortDescription: 'AI-powered academic integrity monitoring system with real-time eye tracking technology.',
-    problem: 'There was a need to develop a system capable of detecting potential malpractice scenarios through behavioral analysis. Traditional monitoring methods were insufficient for identifying subtle behavioral patterns that could indicate issues requiring attention during online assessments.',
-    solution: 'Developed EyeTrack Pro, a computer vision-based eye gaze tracking system powered by MediaPipe that analyzes behavioral patterns and eye movement data in real-time. The system processes video feeds, applies advanced computer vision algorithms to detect anomalies, and generates alerts when students look away from the screen for extended periods. The backend handles data processing, analysis, and comprehensive session analytics with privacy-focused local processing.',
-    techStack: ['Python', 'MediaPipe', 'FastAPI', 'Computer Vision', 'Real-time Processing'],
-    role: 'Backend & System Logic Contributor',
-    outcome: 'Contributed to the development of a sophisticated tracking system that successfully identifies behavioral patterns with high accuracy. The system\'s backend architecture efficiently processes large volumes of video data and provides actionable insights for academic integrity monitoring. Features include real-time detection, suspicious behavior alerts, session analytics, and privacy-focused local data processing.',
+    id: '2',
+    slug: 'lms-emoefe-digitals',
+    title: 'Learning Management System',
+    client: 'Emoefe Digitals',
+    description:
+      'A private learning platform for users, courses, content, payments, and learner activity.',
+    shortDescription:
+      'Private LMS with courses, payments, and learner workflows.',
+    problem:
+      'The organization needed one system to run learning programs — users, courses, progress, and payments — instead of scattered tools.',
+    approach:
+      'Backend structure first (users, courses, access, payments), then a responsive learning UI and operational tooling for content and maintenance. Product details remain confidential.',
+    solution:
+      'Built full-stack LMS features in Python/Flask: course and content management, Paystack payments, email workflows, performance improvements (SEO, lazy loading), and deployment support.',
+    techStack: [
+      'Python',
+      'Flask',
+      'MySQL',
+      'JavaScript',
+      'HTML',
+      'CSS',
+      'Bootstrap',
+      'Paystack',
+    ],
+    role: 'Architect & Lead Developer',
+    outcome:
+      'Shipped an internal LMS used for organizational learning delivery, with live payment flows and a maintainable deployment path.',
+    highlights: [
+      'Owned architecture and delivery',
+      'Paystack payment integration',
+      'Private deployment — UI not shown publicly',
+    ],
     featured: true,
+    confidential: true,
+  },
+  {
+    id: '3',
+    slug: 'school-management-software',
+    title: 'School Management Software',
+    client: 'Great Blossom Academy',
+    description:
+      'A private multi-user school operations system with role-based access for staff teams.',
+    shortDescription:
+      'Private role-based school operations system for academic and admin teams.',
+    problem:
+      'Day-to-day school work was split across spreadsheets and informal processes. Different roles needed different access to the same operational data.',
+    approach:
+      'Designed permissions first — Admin, Head of Department, Secretary, Teacher — then built shared records and workflows around those boundaries. Screens and data stay private to the client.',
+    solution:
+      'Developed a multi-user PHP/CodeIgniter platform with role-based access control, database-driven workflows, and responsive interfaces for users, records, and school operations.',
+    techStack: ['PHP', 'CodeIgniter', 'MySQL', 'JavaScript', 'HTML', 'CSS', 'Bootstrap'],
+    role: 'Full-stack Developer',
+    outcome:
+      'Delivered a production operations system supporting multiple school roles with clearer access control and shared digital workflows.',
+    highlights: [
+      'Four role types with access control',
+      'Shared academic & admin workflows',
+      'Private client system — details on request',
+    ],
+    featured: true,
+    confidential: true,
+  },
+  {
+    id: '4',
+    slug: 'eye-gaze-tracking-system',
+    title: 'EyeTrack Pro',
+    description:
+      'Computer-vision prototype for detecting prolonged look-away behavior during online assessments.',
+    shortDescription:
+      'Eye-gaze monitoring prototype for online assessment integrity.',
+    problem:
+      'Online assessments lack reliable signals when a candidate looks away for extended periods. Manual proctoring does not scale.',
+    approach:
+      'Built a calibration-aware prototype using facial landmarks and gaze heuristics, with local processing focused on actionable alerts.',
+    solution:
+      'Developed a Flask/FastAPI system with OpenCV and MediaPipe Face Mesh to analyze landmarks and detect prolonged look-away events.',
+    techStack: ['Python', 'Flask', 'FastAPI', 'OpenCV', 'MediaPipe', 'NumPy', 'JavaScript'],
+    role: 'Backend & System Logic Contributor',
+    outcome:
+      'Working prototype demonstrating gaze-based integrity signals with session analytics and local processing.',
+    highlights: [
+      'MediaPipe face-mesh pipeline',
+      'Prolonged look-away detection',
+      'Prototype demo available',
+    ],
+    featured: false,
+    confidential: false,
     link: 'https://eye-gaze-tracker.up.railway.app/',
   },
 ]
-

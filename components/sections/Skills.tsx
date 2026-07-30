@@ -1,50 +1,47 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Card from '@/components/Card'
 import { skills } from '@/data/skills'
 
 export default function Skills() {
   return (
-    <section id="skills" className="section-padding bg-gray-50 dark:bg-gray-800">
+    <section id="skills" className="section-padding border-b border-paper-rule bg-paper">
       <div className="container-custom">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="heading-secondary text-center mb-12">Skills & Expertise</h2>
-          
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {skills.map((category, index) => (
-              <motion.div
-                key={category.category}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card hover>
-                  <h3 className="heading-tertiary mb-3">{category.category}</h3>
-                  <p className="text-body mb-4">{category.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {category.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="px-3 py-1.5 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-md text-sm font-medium"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        <div className="mb-14 max-w-2xl">
+          <p className="label-mono mb-3 text-accent">Skills</p>
+          <h2 className="heading-secondary mb-4">Tools I use to ship</h2>
+          <p className="text-body">
+            A practical stack focused on backend systems, responsive frontends, and reliable deployment.
+          </p>
+        </div>
+
+        <div className="divide-y divide-paper-rule border-y border-paper-rule">
+          {skills.map((category, index) => (
+            <motion.div
+              key={category.category}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: index * 0.05 }}
+              className="grid gap-4 py-8 md:grid-cols-12 md:gap-8"
+            >
+              <h3 className="font-display text-lg font-semibold text-ink md:col-span-4">
+                {category.category}
+              </h3>
+              <div className="md:col-span-8">
+                <p className="text-body mb-4 text-sm">{category.description}</p>
+                <div className="flex flex-wrap gap-x-4 gap-y-2">
+                  {category.skills.map((skill) => (
+                    <span key={skill} className="font-mono text-xs text-ink-muted">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   )
 }
-

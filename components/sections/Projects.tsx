@@ -1,132 +1,111 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Card from '@/components/Card'
-import Button from '@/components/Button'
+import Link from 'next/link'
 import { projects } from '@/data/projects'
-import { sideProjects } from '@/data/sideProjects'
-import { HiArrowRight, HiExternalLink } from 'react-icons/hi'
+import { HiArrowUpRight } from 'react-icons/hi2'
 
 export default function Projects() {
   const mainProjects = projects.filter((p) => p.featured)
 
   return (
-    <section id="projects" className="section-padding bg-gray-50 dark:bg-gray-800">
+    <section id="work" className="section-padding border-b border-paper-rule bg-paper">
       <div className="container-custom">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          {/* Main Projects Section */}
-          <div className="mb-16">
-            <div className="text-center mb-12">
-              <h2 className="heading-secondary mb-4">Main Projects</h2>
-              <p className="text-body max-w-2xl mx-auto">
-                A selection of projects showcasing my expertise in backend development,
-                system architecture, and full-stack solutions.
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-              {mainProjects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
-                  <Card hover className="h-full flex flex-col">
-                    <h3 className="heading-tertiary mb-3">{project.title}</h3>
-                    <p className="text-body mb-4 flex-grow">{project.shortDescription}</p>
-                    
-                    <div className="mb-4">
-                      <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        Role: <span className="font-normal">{project.role}</span>
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.techStack.slice(0, 3).map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                        {project.techStack.length > 3 && (
-                          <span className="px-2 py-1 text-gray-500 dark:text-gray-400 text-xs">
-                            +{project.techStack.length - 3} more
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    
-                    <Button
-                      href={`/projects/${project.slug}`}
-                      variant="outline"
-                      size="sm"
-                      className="w-full justify-center"
-                    >
-                      View Case Study
-                      <HiArrowRight className="ml-2 w-4 h-4" />
-                    </Button>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
+        <div className="mb-10 grid gap-6 lg:grid-cols-12 lg:items-end">
+          <div className="lg:col-span-7">
+            <p className="label-mono mb-3 text-accent">Selected work</p>
+            <h2 className="heading-secondary">Products shipped for real organizations</h2>
           </div>
+          <p className="text-body lg:col-span-5 lg:pb-1">
+            Three case studies spanning medical publishing, learning delivery, and school
+            operations — built end-to-end with production constraints in mind.
+          </p>
+        </div>
 
-          {/* Side Projects Section */}
-          {sideProjects.length > 0 && (
-            <div>
-              <div className="text-center mb-12">
-                <h2 className="heading-secondary mb-4">Side Projects</h2>
-                <p className="text-body max-w-2xl mx-auto">
-                  Additional projects and experiments I've worked on in my spare time.
-                </p>
+        <p className="mb-10 max-w-2xl border-l-2 border-accent/40 pl-4 text-sm leading-relaxed text-ink-muted">
+          Some projects are confidential client systems. Case studies describe scope,
+          decisions, and impact only — interfaces and sensitive details are not shown publicly.
+          Happy to walk through private work on a call or under NDA.
+        </p>
+
+        <div className="divide-y divide-paper-rule border-y border-paper-rule">
+          {mainProjects.map((project, index) => (
+            <motion.article
+              key={project.id}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-10%' }}
+              transition={{ duration: 0.55, delay: index * 0.08 }}
+              className="group grid gap-6 py-10 md:py-12 lg:grid-cols-12 lg:gap-8"
+            >
+              <div className="lg:col-span-1">
+                <span className="font-mono text-sm text-ink-faint">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
               </div>
-              
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-                {sideProjects.map((project, index) => (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
+
+              <div className="lg:col-span-5">
+                <div className="mb-2 flex flex-wrap items-center gap-3">
+                  <h3 className="heading-tertiary group-hover:text-accent">
+                    <Link href={`/projects/${project.slug}`}>{project.title}</Link>
+                  </h3>
+                  {project.confidential && (
+                    <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">
+                      Confidential
+                    </span>
+                  )}
+                </div>
+                {project.client && (
+                  <p className="mb-3 text-sm text-ink-faint">{project.client}</p>
+                )}
+                <p className="text-body max-w-measure">{project.shortDescription}</p>
+              </div>
+
+              <div className="flex flex-col justify-between gap-6 lg:col-span-6 lg:pl-4">
+                <div>
+                  <p className="label-mono mb-2">Role</p>
+                  <p className="mb-4 text-sm text-ink">{project.role}</p>
+                  <ul className="mb-4 space-y-1.5">
+                    {project.highlights.slice(0, 3).map((item) => (
+                      <li key={item} className="text-sm text-ink-muted">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="flex flex-wrap gap-x-3 gap-y-1">
+                    {project.techStack.slice(0, 5).map((tech) => (
+                      <span key={tech} className="font-mono text-xs text-ink-faint">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-5">
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-hover"
                   >
-                    <Card hover className="h-full flex flex-col">
-                      <h3 className="heading-tertiary mb-3">{project.name}</h3>
-                      {project.description && (
-                        <p className="text-body mb-4 flex-grow">{project.description}</p>
-                      )}
-                      
-                      {project.url !== '#' ? (
-                        <a
-                          href={project.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center w-full px-4 py-2 mt-auto border-2 border-primary-600 text-primary-600 hover:bg-primary-50 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:border-primary-400 dark:text-primary-400 dark:hover:bg-primary-900/20 rounded-lg transition-all duration-200 text-sm font-medium"
-                        >
-                          Visit Project
-                          <HiExternalLink className="ml-2 w-4 h-4" />
-                        </a>
-                      ) : (
-                        <div className="inline-flex items-center justify-center w-full px-4 py-2 mt-auto border-2 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 rounded-lg text-sm font-medium cursor-not-allowed">
-                          Coming Soon
-                        </div>
-                      )}
-                    </Card>
-                  </motion.div>
-                ))}
+                    Read case study
+                    <HiArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </Link>
+                  {project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm text-ink-muted hover:text-accent"
+                    >
+                      Live site
+                      <HiArrowUpRight className="h-3.5 w-3.5" />
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
-        </motion.div>
+            </motion.article>
+          ))}
+        </div>
       </div>
     </section>
   )
 }
-

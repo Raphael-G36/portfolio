@@ -1,16 +1,21 @@
 import { MetadataRoute } from 'next'
+import { siteUrl } from '@/data/seo'
 
 export default function robots(): MetadataRoute.Robots {
-  // Update this with your actual domain after deployment
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://raphael-okonmah.vercel.app/'
-  
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: ['/api/'],
-    },
-    sitemap: `${baseUrl}/sitemap.xml`,
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/api/'],
+      },
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+        disallow: ['/api/'],
+      },
+    ],
+    sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
   }
 }
-

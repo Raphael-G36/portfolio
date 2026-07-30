@@ -1,59 +1,73 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Button from '@/components/Button'
-import { HiArrowDown } from 'react-icons/hi'
+import Link from 'next/link'
 
 export default function Hero() {
   return (
-    <section className="section-padding min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="container-custom">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="heading-primary mb-6">
-              <span className="text-gray-900 dark:text-white">Hi, I'm </span>
-              <span className="text-primary-600 dark:text-primary-400">Raphael Okonmah</span>
-            </h1>
-            <p className="text-2xl md:text-3xl font-semibold text-gray-700 dark:text-gray-300 mb-4">
-              Software Engineer
-            </p>
-            <p className="text-body max-w-2xl mx-auto mb-8">
-              CTO & Lead Developer at Emoefe Digitals. I specialize in backend development,
-              system architecture, and building scalable solutions. Passionate about creating
-              robust systems and mentoring the next generation of developers.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button href="/projects" size="lg">
-                View My Work
-              </Button>
-              <Button href="/contact" variant="outline" size="lg">
-                Get In Touch
-              </Button>
-            </div>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
-            className="mt-16"
-          >
+    <section className="relative min-h-[88vh] overflow-hidden border-b border-paper-rule bg-paper pt-24 md:pt-28">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[42%] bg-accent-soft/60 lg:block"
+      />
+
+      <div className="container-custom relative grid min-h-[calc(88vh-6rem)] items-end pb-16 md:pb-24 lg:grid-cols-12 lg:gap-8">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="lg:col-span-8"
+        >
+          <p className="label-mono mb-6 text-accent">Full Stack Product Engineer</p>
+
+          <h1 className="heading-primary mb-6 max-w-4xl">
+            Raphael
+            <br />
+            Okonmah
+          </h1>
+
+          <p className="text-body mb-10 max-w-measure">
+            I design and ship full-stack products for real organizations — from
+            publication workflows and learning platforms to school operations systems.
+            Python, Flask, PHP, CodeIgniter, JavaScript, MySQL, and production deployment.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-6">
+            <Link href="/#work" className="btn-primary">
+              View selected work
+            </Link>
             <a
-              href="#about"
-              className="inline-flex flex-col items-center text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-              aria-label="Scroll to about section"
+              href="mailto:raphaelokonmah3@gmail.com"
+              className="text-sm text-ink-muted underline-offset-4 hover:text-accent hover:underline"
             >
-              <span className="text-sm mb-2">Scroll to explore</span>
-              <HiArrowDown className="w-6 h-6 animate-bounce" />
+              raphaelokonmah3@gmail.com
             </a>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
+
+        <motion.aside
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.35, duration: 0.6 }}
+          className="mt-14 hidden border-l border-paper-rule pl-8 lg:col-span-4 lg:mt-0 lg:block"
+        >
+          <p className="label-mono mb-4">Currently</p>
+          <ul className="space-y-4 text-sm leading-relaxed text-ink-muted">
+            <li>
+              <span className="block font-medium text-ink">Software Developer</span>
+              Recurra
+            </li>
+            <li>
+              <span className="block font-medium text-ink">IT Consultant</span>
+              Federal Medical Centre, Asaba
+            </li>
+            <li>
+              <span className="block font-medium text-ink">CTO & Lead Developer</span>
+              Emoefe Digitals
+            </li>
+          </ul>
+        </motion.aside>
       </div>
     </section>
   )
 }
-

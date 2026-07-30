@@ -26,30 +26,23 @@ export default function Button({
   target,
   rel,
 }: ButtonProps) {
-  const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed'
-
   const variants = {
-    primary:
-      'bg-primary-600 hover:bg-primary-700 text-white focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600',
-    secondary:
-      'bg-gray-200 hover:bg-gray-300 text-gray-900 focus:ring-gray-500 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white',
-    outline:
-      'border-2 border-primary-600 text-primary-600 hover:bg-primary-50 focus:ring-primary-500 dark:border-primary-400 dark:text-primary-400 dark:hover:bg-primary-900/20',
+    primary: 'btn-primary',
+    secondary: 'btn-ghost bg-ink text-paper-raised border-ink hover:bg-ink/90 hover:text-paper-raised hover:border-ink',
+    outline: 'btn-ghost',
   }
 
   const sizes = {
     sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 text-base',
-    lg: 'px-8 py-4 text-lg',
+    md: 'px-5 py-3 text-base',
+    lg: 'px-6 py-3.5 text-base',
   }
 
-  const classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`
+  const classes = `${variants[variant]} ${sizes[size]} ${className}`
 
   if (href) {
-    // Check if it's an external link
     const isExternal = href.startsWith('http://') || href.startsWith('https://')
-    
+
     if (isExternal) {
       return (
         <a
@@ -62,7 +55,7 @@ export default function Button({
         </a>
       )
     }
-    
+
     return (
       <Link href={href} className={classes}>
         {children}
@@ -71,14 +64,8 @@ export default function Button({
   }
 
   return (
-    <button
-      type={type}
-      onClick={onClick}
-      disabled={disabled}
-      className={classes}
-    >
+    <button type={type} onClick={onClick} disabled={disabled} className={classes}>
       {children}
     </button>
   )
 }
-

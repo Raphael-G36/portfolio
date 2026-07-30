@@ -3,126 +3,118 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { HiMenu, HiX, HiMoon, HiSun } from 'react-icons/hi'
-import { useTheme } from './ThemeProvider'
+import { site } from '@/data/site'
 
 const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/about', label: 'About' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/skills', label: 'Skills' },
-  { href: '/experience', label: 'Experience' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/#work', label: 'Work' },
+  { href: '/#experience', label: 'Experience' },
+  { href: '/#about', label: 'About' },
+  { href: '/#contact', label: 'Contact' },
 ]
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
-  const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
-    }
+    const handleScroll = () => setScrolled(window.scrollY > 16)
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
+
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm'
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        scrolled || isOpen
+          ? 'border-b border-paper-rule bg-paper/95 backdrop-blur-sm'
           : 'bg-transparent'
       }`}
     >
-      <div className="container-custom">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-            aria-label="Raphael Okonmah - Home"
+      <nav className="container-custom flex h-16 items-center justify-between md:h-18">
+        <Link
+          href="/"
+          className="font-display text-lg font-bold tracking-tight text-ink hover:text-accent"
+          aria-label={`${site.name} — Home`}
+        >
+          {site.name}
+        </Link>
+
+        <div className="hidden items-center gap-8 md:flex">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm text-ink-muted hover:text-accent"
+            >
+              {link.label}
+            </Link>
+          ))}
+          <a
+            href={site.links.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-ink-muted hover:text-accent"
           >
-            RO
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm font-medium transition-colors ${
-                  pathname === link.href
-                    ? 'text-primary-600 dark:text-primary-400'
-                    : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-            
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? (
-                <HiSun className="w-5 h-5" />
-              ) : (
-                <HiMoon className="w-5 h-5" />
-              )}
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center space-x-2">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === 'dark' ? (
-                <HiSun className="w-5 h-5" />
-              ) : (
-                <HiMoon className="w-5 h-5" />
-              )}
-            </button>
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle menu"
-              aria-expanded={isOpen}
-            >
-              {isOpen ? <HiX className="w-6 h-6" /> : <HiMenu className="w-6 h-6" />}
-            </button>
-          </div>
+            LinkedIn
+          </a>
+          <a
+            href={site.resumePath}
+            download
+            className="font-mono text-xs uppercase tracking-[0.12em] text-accent hover:text-accent-hover"
+          >
+            Resume
+          </a>
         </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden py-4 border-t border-gray-200 dark:border-gray-800">
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="inline-flex items-center justify-center border border-paper-rule px-3 py-1.5 font-mono text-xs uppercase tracking-[0.12em] text-ink md:hidden"
+          aria-label="Toggle menu"
+          aria-expanded={isOpen}
+        >
+          {isOpen ? 'Close' : 'Menu'}
+        </button>
+      </nav>
+
+      {isOpen && (
+        <div className="border-t border-paper-rule bg-paper md:hidden">
+          <div className="container-custom flex flex-col gap-1 py-4">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className={`block py-2 text-base font-medium transition-colors ${
-                  pathname === link.href
-                    ? 'text-primary-600 dark:text-primary-400'
-                    : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
-                }`}
+                className="py-3 text-base text-ink hover:text-accent"
               >
                 {link.label}
               </Link>
             ))}
+            <a
+              href={site.links.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsOpen(false)}
+              className="py-3 text-base text-ink hover:text-accent"
+            >
+              LinkedIn
+            </a>
+            <a
+              href={site.resumePath}
+              download
+              onClick={() => setIsOpen(false)}
+              className="py-3 font-mono text-xs uppercase tracking-[0.12em] text-accent"
+            >
+              Download Resume
+            </a>
           </div>
-        )}
-      </div>
-    </nav>
+        </div>
+      )}
+    </header>
   )
 }
-

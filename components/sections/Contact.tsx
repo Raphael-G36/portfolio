@@ -2,9 +2,9 @@
 
 import { useState, FormEvent } from 'react'
 import { motion } from 'framer-motion'
-import Card from '@/components/Card'
 import Button from '@/components/Button'
-import { HiMail, HiCheckCircle, HiXCircle, HiDownload } from 'react-icons/hi'
+import { site } from '@/data/site'
+import { FaLinkedin, FaGithub } from 'react-icons/fa'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -23,30 +23,24 @@ export default function Contact() {
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       })
 
       const data = await response.json()
+      if (!response.ok) throw new Error(data.error || 'Failed to send message')
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to send message')
+      // Reliable delivery: open the visitor's mail client with a prefilled message
+      if (data.mailto) {
+        window.location.href = data.mailto
       }
 
       setStatus('success')
       setFormData({ name: '', email: '', message: '' })
-      
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        setStatus('idle')
-      }, 5000)
+      setTimeout(() => setStatus('idle'), 6000)
     } catch (error) {
       setStatus('error')
       setErrorMessage(error instanceof Error ? error.message : 'An error occurred')
-      
-      // Reset error message after 5 seconds
       setTimeout(() => {
         setStatus('idle')
         setErrorMessage('')
@@ -57,56 +51,72 @@ export default function Contact() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   return (
-    <section id="contact" className="section-padding bg-white dark:bg-gray-900">
+    <section id="contact" className="section-padding bg-paper">
       <div className="container-custom">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-2xl mx-auto"
-        >
-          <div className="text-center mb-12">
-            <h2 className="heading-secondary mb-4">Get In Touch</h2>
-            <p className="text-body mb-6">
-              I'm always open to discussing new opportunities, freelance projects,
-              or technical collaborations. Feel free to reach out!
+        <div className="grid gap-14 lg:grid-cols-12">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="lg:col-span-5"
+          >
+            <p className="label-mono mb-3 text-accent">Contact</p>
+            <h2 className="heading-secondary mb-5">Let&apos;s talk about the next build</h2>
+            <p className="mb-2 font-medium text-ink">{site.availability}</p>
+            <p className="text-body mb-8">
+              Roles, freelance product work, or a private walkthrough of confidential projects.
             </p>
-            
-            {/* Email and Resume */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+
+            <div className="space-y-4 text-sm">
               <a
-                href="mailto:raphaelokonmah3@gmail.com"
-                className="inline-flex items-center space-x-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors"
+                href={`mailto:${site.email}`}
+                className="block text-ink hover:text-accent"
               >
-                <HiMail className="w-5 h-5" />
-                <span>raphaelokonmah3@gmail.com</span>
+                {site.email}
               </a>
               <a
-                href="/Raphael_Okonmah_CV.docx"
-                download
-                className="inline-flex items-center space-x-2 px-6 py-3 border-2 border-primary-600 text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors"
+                href={site.links.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-ink hover:text-accent"
               >
-                <HiDownload className="w-5 h-5" />
-                <span>Download Resume</span>
+                <FaLinkedin className="h-4 w-4" />
+                linkedin.com/in/raphael-okonmah
+              </a>
+              <a
+                href={site.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-ink-muted hover:text-accent"
+              >
+                <FaGithub className="h-4 w-4" />
+                GitHub
+              </a>
+              <a
+                href={site.resumePath}
+                download
+                className="inline-flex pt-2 font-mono text-xs uppercase tracking-[0.12em] text-accent hover:text-accent-hover"
+              >
+                Download resume (PDF)
               </a>
             </div>
-          </div>
+          </motion.div>
 
-          <Card>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, delay: 0.08 }}
+            className="lg:col-span-6 lg:col-start-7"
+          >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                >
+                <label htmlFor="name" className="label-mono mb-2 block">
                   Name
                 </label>
                 <input
@@ -116,16 +126,13 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                  className="w-full border border-paper-rule bg-paper-raised px-4 py-3 text-ink outline-none transition-colors focus:border-accent"
                   placeholder="Your name"
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                >
+                <label htmlFor="email" className="label-mono mb-2 block">
                   Email
                 </label>
                 <input
@@ -135,16 +142,13 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
-                  placeholder="your.email@example.com"
+                  className="w-full border border-paper-rule bg-paper-raised px-4 py-3 text-ink outline-none transition-colors focus:border-accent"
+                  placeholder="you@example.com"
                 />
               </div>
 
               <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                >
+                <label htmlFor="message" className="label-mono mb-2 block">
                   Message
                 </label>
                 <textarea
@@ -154,45 +158,29 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors resize-none"
-                  placeholder="Tell me about your project or opportunity..."
+                  className="w-full resize-none border border-paper-rule bg-paper-raised px-4 py-3 text-ink outline-none transition-colors focus:border-accent"
+                  placeholder="What are you working on?"
                 />
               </div>
 
               {status === 'success' && (
-                <div className="flex items-center space-x-2 text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
-                  <HiCheckCircle className="w-5 h-5" />
-                  <p>Message sent successfully! I'll get back to you soon.</p>
-                </div>
+                <p className="text-sm text-accent">
+                  Opening your email client with the message ready to send…
+                </p>
               )}
-
               {status === 'error' && (
-                <div className="flex items-center space-x-2 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
-                  <HiXCircle className="w-5 h-5" />
-                  <p>{errorMessage || 'Failed to send message. Please try again.'}</p>
-                </div>
+                <p className="text-sm text-red-700">
+                  {errorMessage || 'Failed to send. Please email me directly.'}
+                </p>
               )}
 
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full"
-                disabled={status === 'loading'}
-              >
-                {status === 'loading' ? (
-                  'Sending...'
-                ) : (
-                  <>
-                    <HiMail className="mr-2 w-5 h-5" />
-                    Send Message
-                  </>
-                )}
+              <Button type="submit" size="lg" disabled={status === 'loading'}>
+                {status === 'loading' ? 'Preparing…' : 'Send message'}
               </Button>
             </form>
-          </Card>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   )
 }
-

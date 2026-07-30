@@ -2,9 +2,9 @@
 
 import { motion } from 'framer-motion'
 import Button from '@/components/Button'
-import Card from '@/components/Card'
 import { Project } from '@/data/projects'
-import { HiArrowLeft, HiCode, HiExternalLink } from 'react-icons/hi'
+import { site } from '@/data/site'
+import { HiArrowLeft, HiArrowUpRight } from 'react-icons/hi2'
 
 interface ProjectCaseStudyProps {
   project: Project
@@ -12,100 +12,120 @@ interface ProjectCaseStudyProps {
 
 export default function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
   return (
-    <div className="section-padding bg-white dark:bg-gray-900">
+    <article className="border-b border-paper-rule bg-paper pb-24 pt-28 md:pt-32">
       <div className="container-custom">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto"
+          transition={{ duration: 0.55 }}
         >
-          {/* Back Button */}
-          <Button
-            href="/projects"
-            variant="outline"
-            size="sm"
-            className="mb-8"
-          >
-            <HiArrowLeft className="mr-2 w-4 h-4" />
-            Back to Projects
+          <Button href="/#work" variant="outline" size="sm" className="mb-10">
+            <HiArrowLeft className="mr-2 h-4 w-4" />
+            Back to work
           </Button>
 
-          {/* Header */}
-          <div className="mb-12">
-            <h1 className="heading-primary mb-4">{project.title}</h1>
-            <p className="text-body text-xl">{project.description}</p>
-            {project.link && (
-              <div className="mt-6">
-                <Button
-                  href={project.link}
-                  variant="primary"
-                  size="md"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Visit Project
-                  <HiExternalLink className="ml-2 w-4 h-4" />
-                </Button>
-              </div>
-            )}
-          </div>
-
-          {/* Project Details */}
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
-            <Card>
-              <div className="flex items-center space-x-2 mb-4">
-                <HiCode className="w-5 h-5 text-primary-600 dark:text-primary-400" />
-                <h2 className="heading-tertiary">Role</h2>
-              </div>
-              <p className="text-body">{project.role}</p>
-            </Card>
-
-            <Card>
-              <div className="flex items-center space-x-2 mb-4">
-                <HiCode className="w-5 h-5 text-primary-600 dark:text-primary-400" />
-                <h2 className="heading-tertiary">Tech Stack</h2>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {project.techStack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1.5 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-md text-sm font-medium"
-                  >
-                    {tech}
+          <div className="mb-14 grid gap-8 border-b border-paper-rule pb-12 lg:grid-cols-12">
+            <div className="lg:col-span-8">
+              <div className="mb-4 flex flex-wrap items-center gap-3">
+                <p className="label-mono text-accent">Case study</p>
+                {project.confidential && (
+                  <span className="border border-paper-rule px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-faint">
+                    Private deployment
                   </span>
-                ))}
+                )}
               </div>
-            </Card>
+              <h1 className="heading-secondary mb-4">{project.title}</h1>
+              {project.client && (
+                <p className="mb-4 text-sm text-ink-faint">{project.client}</p>
+              )}
+              <p className="text-body text-lg text-ink/80">{project.description}</p>
+
+              {project.confidential && (
+                <p className="mt-6 max-w-measure border-l-2 border-accent/40 pl-4 text-sm leading-relaxed text-ink-muted">
+                  This is a confidential client system. Screenshots, credentials, and sensitive
+                  implementation details are not shown publicly. I can walk through the work on a
+                  call or under NDA.
+                </p>
+              )}
+
+              <div className="mt-6 flex flex-wrap gap-4">
+                {project.link && (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-accent-hover"
+                  >
+                    Visit live project
+                    <HiArrowUpRight className="h-4 w-4" />
+                  </a>
+                )}
+                {project.confidential && (
+                  <a
+                    href={`mailto:${site.email}?subject=${encodeURIComponent(
+                      `Private walkthrough: ${project.title}`
+                    )}`}
+                    className="inline-flex items-center gap-2 text-sm text-ink-muted hover:text-accent"
+                  >
+                    Request a private walkthrough
+                  </a>
+                )}
+              </div>
+            </div>
+
+            <aside className="space-y-8 lg:col-span-4 lg:border-l lg:border-paper-rule lg:pl-8">
+              <div>
+                <p className="label-mono mb-2">Role</p>
+                <p className="text-sm text-ink">{project.role}</p>
+              </div>
+              <div>
+                <p className="label-mono mb-3">Impact</p>
+                <ul className="space-y-2">
+                  {project.highlights.map((item) => (
+                    <li key={item} className="text-sm leading-relaxed text-ink-muted">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="label-mono mb-3">Stack</p>
+                <ul className="space-y-1.5">
+                  {project.techStack.map((tech) => (
+                    <li key={tech} className="font-mono text-xs text-ink-muted">
+                      {tech}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </aside>
           </div>
 
-          {/* Problem */}
-          <Card className="mb-6">
-            <h2 className="heading-tertiary mb-4">Problem</h2>
-            <p className="text-body">{project.problem}</p>
-          </Card>
+          <div className="mx-auto grid max-w-3xl gap-14">
+            <section>
+              <h2 className="heading-tertiary mb-4">Problem</h2>
+              <p className="text-body">{project.problem}</p>
+            </section>
 
-          {/* Solution */}
-          <Card className="mb-6">
-            <h2 className="heading-tertiary mb-4">Solution</h2>
-            <p className="text-body">{project.solution}</p>
-          </Card>
+            {project.approach && (
+              <section>
+                <h2 className="heading-tertiary mb-4">Approach</h2>
+                <p className="text-body">{project.approach}</p>
+              </section>
+            )}
 
-          {/* Outcome */}
-          <Card className="mb-8">
-            <h2 className="heading-tertiary mb-4">Outcome</h2>
-            <p className="text-body">{project.outcome}</p>
-          </Card>
+            <section>
+              <h2 className="heading-tertiary mb-4">What I built</h2>
+              <p className="text-body">{project.solution}</p>
+            </section>
 
-          {/* Navigation */}
-          <div className="flex justify-center">
-            <Button href="/projects" variant="outline" size="lg">
-              View All Projects
-            </Button>
+            <section className="border-l-2 border-accent pl-6">
+              <h2 className="heading-tertiary mb-4">Outcome</h2>
+              <p className="text-body">{project.outcome}</p>
+            </section>
           </div>
         </motion.div>
       </div>
-    </div>
+    </article>
   )
 }
-
